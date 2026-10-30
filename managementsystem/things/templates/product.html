@@ -1,0 +1,111 @@
+<html>
+    <head>
+        <title> My Django Project</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    </head>
+    <body class="bg-light">
+
+    <div class="container mt-4">
+        
+        <!-- Header Section -->
+        <div class="header-section d-flex justify-content-between align-items-center">
+            <div>
+                <h2 class="h2 font-weight-bold mb-1">Manage Products</h2>
+                <p class="text-muted small mb-0">Add and organize your inventory products</p><br>
+            </div>
+            <a href="{% url 'home' %}" class="btn btn-primary">Home</a>
+        </div>
+        
+        <!-- Add Product Form -->
+        <div class="card p-4 mb-4 shadow-sm">
+        <div class="card-simple">
+            <h3 class="font-weight-bold mb-3">Add New Product</h3>
+            
+            <form method="POST" action="{% url 'addproduct' %}">
+                {% csrf_token %}
+                
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="name">Product Name</label>
+                        <input type="text" name="name" class="form-control" id="name" placeholder="Enter product name" required>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="brand">Brand</label>
+                        <input type="text" name="brand" class="form-control" id="brand" placeholder="Enter brand name">
+                    </div>
+                </div>
+         
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="price">Price</label>
+                        <input type="number" step="0.01" name="price" class="form-control" id="price" placeholder="0.00" required>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="category">Category</label>
+                        <select name="category" class="form-control" id="category" required>
+                            <option value="" disabled selected>Select category</option>
+                            {% for i in n %}
+                                <option value="{{ i.id }}">{{ i.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea name="description" class="form-control" id="description" rows="3" placeholder="Enter description"></textarea>
+                </div>
+
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-info px-4">Register</button>
+                    <a href="{% url 'home' %}" class="btn btn-success px-4 ml-2">Back</a>
+                </div>
+            </form>
+        </div>
+        </div>
+      <div class="card p-4 mb-4 shadow-sm">
+        <h2>Product List</h2><br>
+            
+            <table border ="1" cellpadding='9', cellspacing='0'>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Brand</th>
+                <th>Category</th>
+                <th>Action</th>
+                <th>Update</th>
+            </tr>
+            {% for i in b %}
+            <tr>
+              <td>{{ i.name}}</td>
+              <td>{{ i.description}}</td>
+              <td>{{ i.price}}</td>
+              <td>{{ i.brand}}</td>
+              <td>{{ i.category.name}}</td>
+            
+              
+              <td>
+                <a href="{% url 'delete_product' i.id %}" class="btn btn-danger">Delete</a>
+              </td>
+              <td>
+                <a href="{% url 'productedit' i.id %}" class="btn btn-warning">Edit</a>
+              </td>
+               
+            </tr>
+              {% empty %}
+            <tr>
+            <td colspan="3">No phone details available.</td>
+            </tr>
+            {% endfor %}
+            </table>
+        </form>
+      </div>
+        
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script> 
+   
+    </body>
+</html>
